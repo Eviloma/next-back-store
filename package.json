@@ -1,0 +1,36 @@
+{
+  "name": "next-link-back",
+  "version": "0.0.0",
+  "main": "./dist/index.js",
+  "module": "index.ts",
+  "description": "Some library",
+  "scripts": {
+    "build": "rimraf dist/ &&  bun build --target=node ./src/index.ts --outfile=dist/index.js && bun run build:declaration",
+    "build:declaration": "tsc --emitDeclarationOnly --project tsconfig.types.json",
+    "postbuild": "rimraf tsconfig.types.tsbuildinfo",
+    "prepublish": "bun run build",
+    "publish:npm": "bun prepublish && npm publish",
+    "lint": "biome check --write .",
+    "prepare": "husky"
+  },
+  "type": "module",
+  "types": "./dist/index.d.ts",
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.4",
+    "@types/bun": "latest",
+    "cz-conventional-changelog": "^3.3.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.5.0",
+    "rimraf": "^6.0.1"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "files": ["dist"],
+  "trustedDependencies": ["@biomejs/biome"],
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}
