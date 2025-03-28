@@ -21,7 +21,9 @@
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "allowJs": true,
-    "types": ["bun-types"]
+    "types": ["bun-types"],
+    "declaration": true,
+    "emitDeclarationOnly": false
   },
-  "include": ["src/**/*.ts"]
+  "include": ["src"]
 }

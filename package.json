@@ -1,33 +1,39 @@
 {
-  "name": "next-link-back",
-  "version": "0.0.0",
+  "name": "@eviloma/next-back-store",
+  "version": "1.0.0",
   "main": "./dist/index.js",
   "module": "index.ts",
-  "description": "Some library",
+  "description": "Next Link with back store. Save preview url with search params.",
   "scripts": {
-    "build": "rimraf dist/ &&  bun build --target=node ./src/index.ts --outfile=dist/index.js && bun run build:declaration",
+    "build": "rimraf dist/ &&  bun build --target=node --external next --external react ./src/index.ts --outfile=dist/index.js && bun run build:declaration",
     "build:declaration": "tsc --emitDeclarationOnly --project tsconfig.types.json",
     "postbuild": "rimraf tsconfig.types.tsbuildinfo",
     "prepublish": "bun run build",
-    "publish:npm": "bun prepublish && npm publish",
+    "publish:npm": "bun prepublish && npm publish --access public",
     "lint": "biome check --write .",
     "prepare": "husky"
   },
   "type": "module",
   "types": "./dist/index.d.ts",
+  "dependencies": {
+    "zustand": "^5.0.3"
+  },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
-    "@types/bun": "latest",
+    "@types/node": "^22.13.14",
+    "@types/react": "^19.0.12",
     "cz-conventional-changelog": "^3.3.0",
     "husky": "^9.1.7",
     "lint-staged": "^15.5.0",
     "rimraf": "^6.0.1"
   },
   "peerDependencies": {
-    "typescript": "^5.0.0"
+    "typescript": "^5.8.2",
+    "next": "15",
+    "react": "19"
   },
   "files": ["dist"],
-  "trustedDependencies": ["@biomejs/biome"],
+  "trustedDependencies": ["@biomejs/biome", "sharp"],
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
