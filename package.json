@@ -1,9 +1,24 @@
 {
   "name": "@eviloma/next-back-store",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "main": "./dist/index.js",
   "module": "index.ts",
-  "description": "Next Link with back store. Save preview url with search params.",
+  "description": "Next.js component library for easy create back button with save history",
+  "homepage": "https://github.com/eviloma/next-back-store",
+  "bugs": {
+    "url": "https://github.com/eviloma/next-back-store/issues"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "HighError",
+    "email": "higherror@eviloma.org",
+    "url": "https://github.com/higherror"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Eviloma/next-back-store"
+  },
+
   "scripts": {
     "build": "rimraf dist/ &&  bun build --target=node --external next --external react ./src/index.ts --outfile=dist/index.js && bun run build:declaration",
     "build:declaration": "tsc --emitDeclarationOnly --project tsconfig.types.json",

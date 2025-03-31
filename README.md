@@ -2,75 +2,111 @@
 
 Component library for Next.js to allow easy create back button with save search params.
 
-## How to use
+## Table of Content
 
-Add Provider to page layout
+- [Requirements](#requirements)
+- [Initial project](#initial-project)
+  - [Provider](#provider)
+  - [Link](#link)
+- [Example of use](#example-of-use)
+
+## Requirements
+
+- Next.js 15
+- React 19
+
+## Initial project
+
+### Provider
+
+To use this library, you need to add the provider to the main layout (`app/layout.tsx`) of the project.
+Since the Provider contains context, you need to wrap it in a client component
+
+Create a file with providers (`/app/component/Providers.tsx`)
 
 ```tsx
-// src/app/components/Providers.tsx
 "use client";
 
-export default function Providers({ children }: { children: React.ReactNode }) {
+import { BackStoreProvider } from "@eviloma/next-back-store";
+
+interface IProps{
+  children: ReactNode
+}
+
+export default function Providers(){
   return <BackStoreProvider>{children}</BackStoreProvider>
 }
+```
 
-// /src/app/layout.tsx
+And add this component to the main layout (`app/layout.tsx`)
+```tsx
 import Providers from "./components/Providers";
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
-  return(
-    ...
-    <Providers>{children}</Providers>
-    ...
-  )
+interface IProps{
+  children: ReactNode
+}
+
+export default function Layout(){
+  return
+  <html>
+    <body>
+      <Providers>{children}</Providers>
+    </body>
+  </html>
 }
 ```
 
-If you need to safe search params use `Link` from this library
+### Link
 
+The library provides an advanced `Link` component that automatically creates a history on click
+
+You can additionally pass optional parameters to this component:
+- clearAll (`boolean`) - clear all history. Default: `false`;
+- pathname (`string`) - pass path to history link. Default: current path (result of `usePathname`);
+- searchParams (`URLSearchParams | ReadonlyURLSearchParams`) - pass search params to history link. Default: current search params (result of `useSearchParams`);
+- anchor (`string`) - pass anchor to history link. Default empty string;
+
+## Example of use
+
+- Create Link button with save current url
 ```tsx
 import { Link } from "@eviloma/next-back-store";
 
-export default function GoToOrderButton(){
-  return <Link href="/orders/1">Go To</Link>
+export default function GoToOrders(){
+  <Link href="/orders">Orders</Link>
 }
 ```
 
-For back button, import `useBack` from this library
-
+- Create Link button, but clear all history (ex. home button)
 ```tsx
-"use client";
+import { Link } from "@eviloma/next-back-store";
+
+export default function GoToHome(){
+  <Link href="/" clearAll>Home</Link>
+}
+```
+
+- Create Back button
+```tsx
 import { useBack } from "@eviloma/next-back-store";
+import { Link } from 'next/link'; // Use default Link component for back button!!
 
 export default function BackButton(){
-  const {getLastHref, removeLast} = useBack();
+  const { getLastHref, removeLast } = useBack();
 
-  if (!getLastHref()) return null;
+  const href = useMemo(() => getLastHref(), [getLastHref]);
 
-  // For this button don't use `Link` for library!!!
-  return <Link href={getLastHref()} onClick={removeLast}>Back</Link>
+  if (!href) return null; // Don't render if there is no history
+
+  // Add default Link component with onClick handler for remove last history item
+  return <Link href={href} onClick={removeLast}>Back</Link>
 }
 ```
 
-If you need remove all back routes use `removeAll` from this library
+If you need custom button or else, you can import `useBack` hook and use the methods directly
 
-```tsx
-import { useBack, Link } from "@eviloma/next-back-store";
-
-export default function BackButton(){
-  const {removeAll} = useBack();
-
-  return <button onClick={removeAll}>Back</button>
-}
-```
-
-or add `clearAll` prop to `Link` in this library
-
-```tsx
-import { Link } from "@eviloma/next-back-store";
-
-export default function BackButton(){
-  return <Link href="/" clearAll>Home</Link>
-}
-```
-
+- `hrefs` (`string[]`) - history array (prefer use methods below)
+- `addHref` (`(href: string) => void`) - add history item
+- `getLastHref` (`() => string | undefined`) - get last history item
+- `removeLast` (`() => void`) - remove last history item
+- `removeAll` (`() => void`) - remove all history

@@ -2,21 +2,36 @@
 
 import useBack from "@/store/back";
 import NextLink, { type LinkProps } from "next/link";
-import { usePathname, useSearchParams } from "next/navigation";
+import {
+  type ReadonlyURLSearchParams,
+  usePathname,
+  useSearchParams,
+} from "next/navigation";
 import { type ReactNode, useMemo } from "react";
 
 interface IProps extends LinkProps {
   clearAll?: boolean;
   children?: ReactNode;
+  pathname?: string;
+  searchParams?: URLSearchParams | ReadonlyURLSearchParams;
+  anchor?: string;
 }
 
-export default function Link({ clearAll, onClick, ...props }: IProps) {
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
+export default function Link({
+  clearAll,
+  onClick,
+  pathname,
+  searchParams,
+  anchor,
+  ...props
+}: IProps) {
+  const currentPathname = usePathname();
+  const currentSearchParams = useSearchParams();
 
   const url = useMemo(
-    () => `${pathname}?${searchParams.toString()}`,
-    [pathname, searchParams],
+    () =>
+      `${pathname || currentPathname}?${searchParams?.toString() || currentSearchParams.toString()}#${anchor}`,
+    [pathname, currentPathname, currentSearchParams, searchParams, anchor],
   );
 
   const { addHref, removeAll } = useBack();
