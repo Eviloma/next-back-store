@@ -33,7 +33,7 @@ interface IProps{
   children: ReactNode
 }
 
-export default function Providers(){
+export default function Providers({ children }: IProps) {
   return <BackStoreProvider>{children}</BackStoreProvider>
 }
 ```
@@ -46,7 +46,7 @@ interface IProps{
   children: ReactNode
 }
 
-export default function Layout(){
+export default function Layout({ children }: IProps) {
   return
   <html>
     <body>
