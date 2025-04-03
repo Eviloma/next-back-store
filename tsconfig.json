@@ -21,7 +21,6 @@
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "allowJs": true,
-    "types": ["bun-types"],
     "declaration": true,
     "emitDeclarationOnly": false
   },
