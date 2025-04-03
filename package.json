@@ -1,6 +1,6 @@
 {
   "name": "@eviloma/next-back-store",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "main": "./dist/index.js",
   "module": "index.ts",
   "description": "Next.js component library for easy create back button with save history",

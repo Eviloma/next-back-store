@@ -30,7 +30,7 @@ export default function Link({
 
   const url = useMemo(
     () =>
-      `${pathname || currentPathname}?${searchParams?.toString() || currentSearchParams.toString()}#${anchor}`,
+      `${pathname || currentPathname}?${searchParams?.toString() || currentSearchParams.toString()}${anchor ? `#${anchor}` : ""}`,
     [pathname, currentPathname, currentSearchParams, searchParams, anchor],
   );
 
